@@ -3,7 +3,7 @@ layout: post
 tags: [azure, sql-server, c#, dotnet]
 ---
 {% include JB/setup %}
-This post describes how to use Managed Service Identity to connect an ASP.NET web application hosted as an Azure App Service to an *Azure SQL Database*.
+This post describes how to use Managed Service Identity to connect a .NET Application hosted as an _Azure App Service_ to an _Azure SQL Database_.
 
 Managed Service Identity (MSI) is a Microsoft Azure feature that allows Azure resources to authenticate / authorise themselves with (_other supported azure resources_)[https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-msi]. The appeal is that secrets such as database passwords are not required to be copied onto developers' machines or checked into source control.
 
