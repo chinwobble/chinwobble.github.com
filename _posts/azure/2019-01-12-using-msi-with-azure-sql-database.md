@@ -5,39 +5,39 @@ tags: [azure, sql-server, c#, dotnet]
 {% include JB/setup %}
 This post describes how to use Managed Service Identity to connect a .NET Application hosted as an _Azure App Service_ to an _Azure SQL Database_.
 
-Managed Service Identity (MSI) is a Microsoft Azure feature that allows Azure resources to authenticate / authorise themselves with (_other supported azure resources_)[https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-msi]. The appeal is that secrets such as database passwords are not required to be copied onto developers' machines or checked into source control.
+Managed Service Identity (MSI) is a Microsoft Azure feature that allows Azure resources to authenticate / authorise themselves with [_other supported azure resources_](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/services-support-msi). The appeal is that secrets such as database passwords are not required to be copied onto developers' machines or checked into source control.
 
 ## Instructions 
 
 ### Step 1: Install the required Packages
-You will need to install the below packages to correctly identify your app to the Azure SQL Database.
+You will need to install the package to correctly identify your app to the Azure SQL Database.
 ```
 Install-Package Microsoft.Azure.Services.AppAuthentication
 ```
-This package will allow your application to obtain an access token from from _Azure Active Directory_. 
-- When your app is running from a developer's machine, it will use the developoer's Microsoft Identity obtained from Visual Studio or the (Azure CLI)[https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest]. 
-- When the application is running on your app service, it will use the managed identity assigned to it.
+This package will allow your application to obtain an access token from _Azure Active Directory_. 
+- When your app is running from a developer's machine, it will use the developoer's Microsoft Identity obtained from Visual Studio or the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest).
+- When the application is running on the _Azure App Service_, it will use the managed identity assigned to it.
 
 ### Step 2: Update the code to use the packages 
 If your application is already directly using `System.Data.SqlClient.SqlConnection` then you simply need to change your connection factory to set the AccessToken property _before_ it opens the database connection.
-If one of your environments is connecting to a database that is not hosted as an Azure SQL Database (e.g. localDB for local development) you may also want to add an if statement check around setting the AccessToken as you cannot mix MSI with other forms of authentication.
+If one of your environments is connecting to a database that is not hosted as an Azure SQL Database (e.g. localDB for local development) you may also want add a check around setting your AccessToken as you cannot mix MSI with other forms of authentication.
 
 ```
-    // this token provivder should be registered as a singleton 
-    var tokenProvider = AzureServiceTokenProvider();
-    ...
-    var dbConnection = new SqlConnection(connectionString);
-    if (IsAzureDB)
-    {
-        db.AccessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
-    }
-    return dbConnection;
+// this token provider should be registered as a singleton 
+var tokenProvider = AzureServiceTokenProvider();
+...
+var dbConnection = new SqlConnection(connectionString);
+if (IsAzureDB)
+{
+    db.AccessToken = await tokenProvider.GetAccessTokenAsync("https://database.windows.net/");
+}
+return dbConnection;
 ```
 
 If SqlConnection doesn't have the `AccessToken` property, you can either install the lastest version of `System.Data.SqlClient` or target a newer version .NET.
 
-If your app uses Entity Framework 6, you can use a less well known feature - (interceptors)[https://docs.microsoft.com/en-us/ef/ef6/fundamentals/logging-and-interception] to add the Access Token every time Entity Framework attempts to open a connection to the dataase. 
-**Note** that this feature is still not available in EF Core 2.2.  
+If your app uses Entity Framework 6, you can use a little known feature - [interceptors](https://docs.microsoft.com/en-us/ef/ef6/fundamentals/logging-and-interception) to add the Access Token every time Entity Framework attempts to open a connection to the dataase. 
+**Note**: this feature is still not available in EF Core 2.2.  
 ```
 [DebuggerStepThrough]
 public class AzureDBConnectionInterceptor : IDbConnectionInterceptor
