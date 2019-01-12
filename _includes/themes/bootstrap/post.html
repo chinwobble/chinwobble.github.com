@@ -10,18 +10,22 @@
     <div class="content">
       {{ content }}
     </div>
-
+    <h3>
+      Related Posts
+    </h3>
     {% unless page.categories == empty %}
+      Categories
       <ul class="tag_box inline">
-        <li><i class="icon-folder-open"></i></li>
+        <!-- <li><i class="icon-folder-open"></i></li> -->
         {% assign categories_list = page.categories %}
         {% include JB/categories_list %}
       </ul>
     {% endunless %}
 
     {% unless page.tags == empty %}
+    Tags
       <ul class="tag_box inline">
-        <li><i class="icon-tags"></i></li>
+        <!-- <li><i class="icon-tags"></i></li> -->
         {% assign tags_list = page.tags %}
         {% include JB/tags_list %}
       </ul>

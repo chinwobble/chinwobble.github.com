@@ -1,5 +1,6 @@
 ---
 layout: post
+category: azure
 tags: [azure, sql-server, c#, dotnet]
 ---
 {% include JB/setup %}
@@ -88,9 +89,9 @@ create user [my-app-service/slots/staging] from external provider;
 alter role db_datareader add member [my-app-service/slots/staging];
 alter role db_datawriter add member [my-app-service/slots/staging];
 ```
-**Note** that you will need to configure a Server Admin for the Azure SQL Server resource. 
+**Note**: you will need to configure a Server Admin for the Azure SQL Server resource. 
 
-You will also need to the correct roles to create the contained users - identitying the relevant role is left as a task for readers.
+You will also need to the correct roles to create the contained users - identitying the relevant role is left as an exercise for readers.
 
 ## References
 [Adding Users to Azure SQL Databases](https://www.mssqltips.com/sqlservertip/5242/adding-users-to-azure-sql-databases/)
