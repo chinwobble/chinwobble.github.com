@@ -51,7 +51,7 @@ public class AzureDBConnectionInterceptor : IDbConnectionInterceptor
     ...
 }
 
-public class MyDbConfiguration : DbConfiguration
+public class MyDbConfiguration : System.Data.Entity.DbConfiguration
 {
     public MyDbConfiguration()
     {
@@ -62,6 +62,8 @@ public class MyDbConfiguration : DbConfiguration
     }
 }
 ```
+
+Your subclass of `System.Data.Entity.DbConfiguration` should be placed in the same assembly as your subclass of `System.Data.Entity.DbContext`.
 
 ### Step 3: Updte your connection strings
 You can now remove username and password from your connection strings.
@@ -81,13 +83,14 @@ To connect to Azure SQL Databases you will only need to create a _contained user
 create user [my-app-service] from external provider;
 alter role db_datareader add member [my-app-service];
 alter role db_datawriter add member [my-app-service];
+
 create user [my-app-service/slots/staging] from external provider;
-alter role db_datawriter add member [my-app-service/slots/staging];
+alter role db_datareader add member [my-app-service/slots/staging];
 alter role db_datawriter add member [my-app-service/slots/staging];
 ```
 **Note** that you will need to configure a Server Admin for the Azure SQL Server resource. 
 
-You will also need to the correct roles to create the contained users - identity the relevant role is left as a task for readers. 
+You will also need to the correct roles to create the contained users - identitying the relevant role is left as a task for readers.
 
 ## References
 [Adding Users to Azure SQL Databases](https://www.mssqltips.com/sqlservertip/5242/adding-users-to-azure-sql-databases/)
