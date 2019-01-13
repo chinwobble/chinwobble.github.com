@@ -23,7 +23,7 @@ This package will allow your application to obtain an access token from _Azure A
 If your application is already directly using `System.Data.SqlClient.SqlConnection` then you simply need to change your connection factory to set the AccessToken property _before_ it opens the database connection.
 If one of your environments is connecting to a database that is not hosted as an Azure SQL Database (e.g. localDB for local development) you may also want add a check around setting your AccessToken as you cannot mix MSI with other forms of authentication.
 
-```
+``` C#
 // this token provider should be registered as a singleton 
 var tokenProvider = AzureServiceTokenProvider();
 ...
@@ -39,7 +39,7 @@ If SqlConnection doesn't have the `AccessToken` property, you can either install
 
 If your app uses Entity Framework 6, you can use a little known feature - [interceptors](https://docs.microsoft.com/en-us/ef/ef6/fundamentals/logging-and-interception) to add the Access Token every time Entity Framework attempts to open a connection to the dataase. 
 **Note**: this feature is still not available in EF Core 2.2.  
-```
+``` Csharp
 [DebuggerStepThrough]
 public class AzureDBConnectionInterceptor : IDbConnectionInterceptor
 {
