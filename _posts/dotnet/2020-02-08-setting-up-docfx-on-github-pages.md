@@ -7,8 +7,7 @@ tags: [github-actions, c#, dotnet]
 {% include JB/setup %}
 Having clear documentation is important to the success of any kind of software project. For open source projects libraries, it reduces the amount of questions the maintainers need to respond to, increases adoption and makes it easier for others to contribute to the project.
 
-This guide details how you can create a free documentation website hosted on github pages using [Microsoft's open source DocFX](https://dotnet.github.io/docfx/index.html) library for a dotnet project although it could easily be modified to support typescript/javascript libraries too. This tool generates a static searchable website based on your markdown files and public exposed classes and members.
-<!-- 'Public exposed classes and members sounds weird and I'm unsure what you're trying to express. -->
+This guide details how you can create a free documentation website hosted on github pages using [Microsoft's open source DocFX](https://dotnet.github.io/docfx/index.html) library for a dotnet project although it could easily be modified to support typescript/javascript libraries too. This tool generates a static searchable website based on your markdown files and API reference documentation based on your publicly exposed members such as classes and methods and their comments.
 
 ## Step 1 - setup your github branches
 I prefer to use a single repo to store my library code and its documentation. That way, I can add a new feature and its associated documentation with a single pull request.
