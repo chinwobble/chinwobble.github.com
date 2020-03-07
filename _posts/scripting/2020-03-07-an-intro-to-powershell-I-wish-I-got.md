@@ -42,6 +42,8 @@ C:\users\{username}\
        |- modules
           |- module1
             |- module1.psm1
+            |- Get-UsefulInfo.ps1
+            |- Shared.ps1
           |- module2
             |- module2.psm1
 ```
@@ -58,7 +60,7 @@ Export-ModuleMember -Alias *
 Export-ModuleMember -Function 'Get-MyData'
 ```
 
-This module file simply uses dot loading to laod all the ps1 files in module folder.
+This module file simply uses dot loading to load all the ps1 files in module folder.
 Then you can expose all your functions one by one.
 
 ## Powershell pipelines are easy to setup
